@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TemplateCraft – Creative Templates & Design Editor
 
-## Getting Started
+A lightweight, fully client‑side creative template editor built with **Next.js**, **React**, and **TypeScript**.  
+Implements canvas‑based editing, draggable layers, autosave, template management, design creation, and a clean UI.
 
-First, run the development server:
+This project was built as part of a coding challenge and intentionally focuses on **clarity**, **architecture**, and **editor usability**, while remaining easy to run locally.
 
+---
+
+## 1. 🚀 Running Locally
+
+### **Prerequisites**
+- Node.js 18+
+- npm, yarn, or pnpm
+
+### **Install dependencies**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Start the development server**
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The app starts at:  
+👉 **http://localhost:3000**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+No additional environment variables are required for the local‑storage version.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 2. 🗄️ Database Setup (Optional — Supabase)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The challenge version uses **localStorage** for persistence (templates + designs).  
+However, the architecture supports upgrading to a real database.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you choose Supabase:
 
-## Deploy on Vercel
+### **Steps**
+1. Create a Supabase project  
+2. Add tables:
+   - `templates`
+   - `designs`
+3. Configure environment variables in `.env.local`:
+```bash
+NEXT_PUBLIC_SUPABASE_URL=xxxx
+NEXT_PUBLIC_SUPABASE_ANON_KEY=xxxx
+```
+4. Replace LocalStorage operations in:
+```
+src/lib/domain/templates/store.ts
+src/lib/domain/designs/store.ts
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 3. 🧩 Architecture Overview
+
+```
+src/
+ ├─ app/
+ │   ├─ templates/
+ │   ├─ designs/
+ │   └─ api/
+ ├─ components/
+ │   ├─ editor/
+ │   ├─ canvas/
+ │   └─ templates/
+ ├─ lib/
+ │   ├─ domain/
+ │   ├─ editor/
+ │   └─ utils/
+ └─ tests/
+```
+
+### Highlights
+- Canvas-based editor (drag, resize, rotate)
+- Text + Image layers
+- Layer panel & property sidebar
+- Autosave with debouncing
+- Template metadata editing
+- Convert Template → Design
+- Clean UI polish, Figma-style sidebar
+- LocalStorage persistence
+
+---
+
+## 4. 🧪 Tests
+
+The project includes:
+- Template store tests
+- Reducer/transform logic tests
+- Jest + React Testing Library setup
+- CI workflow runs lint + tests
+
+### Run tests:
+```bash
+npm test
+```
+
+---
+
+## 5. 🔧 CI Workflow (GitHub Actions)
+
+Location:  
+`.github/workflows/ci.yml`
+
+The workflow:
+- Installs dependencies
+- Runs ESLint
+- Runs tests
+- Ensures stable PRs
+
+---
+
+## 6. ⚠️ Known Limitations
+
+This implementation intentionally keeps certain things simple.
+
+### Current Limitations
+- No real backend (localStorage only)
+- No undo/redo history stack
+- Base64 image storage (large payloads)
+- Thumbnail generation disabled due to dom-to-image inconsistencies
+- No snapping/alignment guides
+- Not optimized for mobile
+
+### Future improvements
+- Supabase or PostgreSQL backend
+- Undo/Redo system
+- Interactive snapping & smart guides
+- SVG → PNG thumbnail pipeline
+- Team collaboration mode
+- Asset library (brands, icons, images)
+
+---
+
+## 7. 🤖 AI Tooling Usage (Optional)
+
+AI tools such as ChatGPT were used for:
+- Discussing architecture options
+- UI/UX refinement ideas
+- Accelerating test/setup boilerplate
+- Bug debugging
+- Documentation polish
+
+All core logic, editor mechanisms, and structure were implemented manually.
+
+---
